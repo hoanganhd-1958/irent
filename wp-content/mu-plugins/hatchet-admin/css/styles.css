@@ -1,0 +1,3 @@
+#welcome-panel, #wp-version-message, #dashboard_right_now .versions p, #dashboard_primary, .available-themes, #availablethemes, #wp-admin-bar-wp-logo, #of_container #header .logo, #contextual-help-link-wrap, ul #wp-admin-bar-my-account-buddypress li, #wp-admin-bar-edit-profile, #espresso_news_dashboard_widget { display:none; }
+#wp-admin-bar-new-page, #wp-admin-bar-new-client, #wp-admin-bar-new-portfolio, #wp-admin-bar-new-testimonial, #wp-admin-bar-wp-logo { display:none!important; }
+

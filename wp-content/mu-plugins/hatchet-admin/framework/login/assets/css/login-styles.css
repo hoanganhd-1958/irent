@@ -1,0 +1,129 @@
+body.login {
+background: #000;
+background-image:url('../your_logo/hatchet-bg.jpg');
+background-size:cover!important;
+}
+.login h1 a {
+background-image: url('../your_logo/hatchet-login.png') !important;
+    background-size: 210px;
+    width: 320px;
+    height: 60px;
+}
+#loginform {
+background: transparent;
+}
+.login label {
+color: #627581;
+font-size: 14px;
+width:100%
+
+}
+
+
+a:focus {
+    color: #124964;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+.login #backtoblog a, .login #nav a {
+color: #FFFFFF;
+}
+.login #backtoblog a:hover, .login #nav a:hover, .login h1 a:hover {
+color: #fff!important;
+}
+.login label {
+color: #FFFFFF!important;
+}
+.login form .input, .login form input[type=checkbox], .login input[type=text] {
+background: rgba(251, 251, 251, 0.15);
+color:#fff;
+font-weight:100;
+padding: 10px 0px 10px 40px;
+}
+input[type=checkbox]:checked:before {
+color: #fff;
+}
+
+/* BUTTONS */
+.wp-core-ui .button-primary {
+background: rgba(255, 255, 255, 0.19)!important;
+border: none!important;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover {
+background: rgba(239, 102, 35, 1)!important;
+border-color: none!important;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+
+/* 2016 Update Styles */
+#login {
+    width: 320px;
+    padding: 8% 8% 0;
+    margin: auto;
+    float: left;
+        background: none;
+    height: 350px;
+}
+/* Label Icons */
+body.login div#login form#loginform input#user_login, body.login div#login form#loginform input#user_pass, body.login div#login form#registerform input#user_login, body.login div#login form#registerform input#user_email, body.login div#login form#lostpasswordform input#user_login {
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    color: #fff;
+    font-size: 15px;
+    padding: 15px 0px 15px 41px;
+    background: none;
+    line-height: 14px;
+    font-family: "Lato", Open Sans, Helvetica, Arial;
+    font-weight: 300;
+}
+body.login div#login form#loginform p label.fa-envelope:before, body.login div#login form#loginform p label.fa-key:before, body.login div#login form#registerform p label.fa-user:before, body.login div#login form#registerform p label.fa-envelope:before, body.login div#login form#lostpasswordform p label.fa-rocket:before {
+    color: #fff;
+    display: block;
+    margin-bottom: -45px;
+    margin-left: 10px;
+}
+/* Login Form */
+body.login div#login form#loginform input#user_login, body.login div#login form#registerform input#user_login {
+    margin-bottom: 30px;
+}
+input[type=text]:focus, input[type=search]:focus, input[type=radio]:focus, input[type=tel]:focus, input[type=time]:focus, input[type=url]:focus, input[type=week]:focus, input[type=password]:focus, input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, input[type=datetime]:focus, input[type=datetime-local]:focus, input[type=email]:focus, input[type=month]:focus, input[type=number]:focus, select:focus, textarea:focus {
+	border:none !important;
+	box-shadow:none !important;
+	-webkit-box-shadow: 0 0 2px rgba(30,140,190,.8);
+}
+.login form .forgetmenot, .login #backtoblog a {
+    display: none;
+}
+.login #nav {
+    margin: 25px 0 0;
+}
+.login form {
+    padding: 26px 24px 0;
+    box-shadow: none;
+}
+.login #nav a {
+    color: rgba(255, 255, 255, 0.2);
+    text-align: center;
+    display: block;
+    text-transform: initial;
+    font-size: 13px;
+    letter-spacing: 0px;
+}
+.wp-core-ui .button-group.button-large .button, .wp-core-ui .button.button-large {
+    width: 100%;
+    height: 45px;
+    background: #fff !important;
+    color: #000;
+    border-radius: 0px;
+}
+
+
+/* Remove Text Shadow from Login Button */
+.wp-core-ui .button.button-large {
+    text-shadow: none !important;
+}
