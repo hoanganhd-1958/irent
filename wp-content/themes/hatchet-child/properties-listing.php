@@ -9,35 +9,35 @@ $target = 'properties/?';
 $token = '827f01934ab7e1f007eda5b79141aa28f6623d61';
 
 // prepare data
-$identity = isset($_POST['identity']) ? $_POST['identity'] : '';
-$office_id = isset($_POST['office_id']) ? $_POST['office_id'] : '';
-$xml_id = isset($_POST['xml_id']) ? $_POST['xml_id'] : '';
-$status = isset($_POST['status']) ? $_POST['status'] : '';
-$type = isset($_POST['type']) ? $_POST['type'] : '';
-$property_type = isset($_POST['property_type']) ? $_POST['property_type'] : '';
-$postcode = isset($_POST['postcode']) ? $_POST['postcode'] : '';
-$suburb = isset($_POST['suburb']) ? $_POST['suburb'] : '';
-$deal_type = isset($_POST['deal_type']) ? $_POST['deal_type'] : '';
-$price = isset($_POST['price']) ? $_POST['price'] : '';
-$bedrooms = isset($_POST['bedrooms']) ? $_POST['bedrooms'] : '';
-$bathrooms = isset($_POST['bathrooms']) ? $_POST['bathrooms'] : '';
-$cars = isset($_POST['cars']) ? $_POST['cars'] : '';
-$land_area = isset($_POST['land_area']) ? $_POST['land_area'] : '';
-$land_frontage = isset($_POST['land_frontage']) ? $_POST['land_frontage'] : '';
-$number_of_floors = isset($_POST['number_of_floors']) ? $_POST['number_of_floors'] : '';
-$features = isset($_POST['features']) ? $_POST['features'] : '';
-$opentimes = isset($_POST['opentimes']) ? $_POST['opentimes'] : '';
-$agent_id = isset($_POST['agent_id']) ? $_POST['agent_id'] : '';
-$vendor_id = isset($_POST['vendor_id']) ? $_POST['vendor_id'] : '';
-$project_id = isset($_POST['project_id']) ? $_POST['project_id'] : '';
-$created_at = isset($_POST['created_at']) ? $_POST['created_at'] : '';
-$updated_at = isset($_POST['updated_at']) ? $_POST['updated_at'] : '';
-$per_page = isset($_POST['per_page']) ? $_POST['per_page'] : '';
-$page = isset($_POST['page']) ? $_POST['page'] : '';
-$order_by = isset($_POST['order_by']) ? $_POST['order_by'] : '';
-$order_dir = isset($_POST['order_dir']) ? $_POST['order_dir'] : '';
-$minimal = isset($_POST['minimal']) ? $_POST['minimal'] : '';
-$require = isset($_POST['require']) ? $_POST['require'] : '';
+$identity = isset($_GET['identity']) ? $_GET['identity'] : '';
+$office_id = isset($_GET['office_id']) ? $_GET['office_id'] : '';
+$xml_id = isset($_GET['xml_id']) ? $_GET['xml_id'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : '';
+$type = isset($_GET['type']) ? $_GET['type'] : '';
+$property_type = isset($_GET['property_type']) ? $_GET['property_type'] : '';
+$postcode = isset($_GET['postcode']) ? $_GET['postcode'] : '';
+$suburb = isset($_GET['suburb']) ? $_GET['suburb'] : '';
+$deal_type = isset($_GET['deal_type']) ? $_GET['deal_type'] : '';
+$price = isset($_GET['price']) ? $_GET['price'] : '';
+$bedrooms = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
+$bathrooms = isset($_GET['bathrooms']) ? $_GET['bathrooms'] : '';
+$cars = isset($_GET['cars']) ? $_GET['cars'] : '';
+$land_area = isset($_GET['land_area']) ? $_GET['land_area'] : '';
+$land_frontage = isset($_GET['land_frontage']) ? $_GET['land_frontage'] : '';
+$number_of_floors = isset($_GET['number_of_floors']) ? $_GET['number_of_floors'] : '';
+$features = isset($_GET['features']) ? $_GET['features'] : '';
+$opentimes = isset($_GET['opentimes']) ? $_GET['opentimes'] : '';
+$agent_id = isset($_GET['agent_id']) ? $_GET['agent_id'] : '';
+$vendor_id = isset($_GET['vendor_id']) ? $_GET['vendor_id'] : '';
+$project_id = isset($_GET['project_id']) ? $_GET['project_id'] : '';
+$created_at = isset($_GET['created_at']) ? $_GET['created_at'] : '';
+$updated_at = isset($_GET['updated_at']) ? $_GET['updated_at'] : '';
+$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : '';
+$page = isset($_GET['page_number']) ? $_GET['page_number'] : '';
+$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : '';
+$order_dir = isset($_GET['order_dir']) ? $_GET['order_dir'] : '';
+$minimal = isset($_GET['minimal']) ? $_GET['minimal'] : '';
+$require = isset($_GET['require']) ? $_GET['require'] : '';
 
 // build url
 $paramArray = [
@@ -98,7 +98,7 @@ curl_close($ch);
     }
 </style>
 <div style="width: 300px; margin-left: 500px;">
-    <form method="post">
+    <form method="get">
         <label>ID: </label><br>
         <input type="text" id="identity" name="identity"><br>
         <label>Office ID:</label><br>
@@ -146,7 +146,7 @@ curl_close($ch);
         <label>per_page:</label><br>
         <input type="text" id="per_page" name="per_page"><br>
         <label>page:</label><br>
-        <input type="text" id="bedrooms" name="page"><br>
+        <input type="text" id="page_number" name="page_number"><br>
         <label>order_by:</label><br>
         <input type="text" id="order_by" name="order_by"><br>
         <label>order_dir:</label><br>
@@ -160,16 +160,31 @@ curl_close($ch);
 </div>
 <?php
 if (isset($data)) {
-    echo '<div class="grid-container">';
-        foreach ($data['results'] as $key => $value) {
-            echo '<div class="grid-item">';
-            echo '<img src="'. $value['photos']['1']['versions']['large']['url'] .'" />';
-            echo '<p>'. $value['property_type'] .'</p>';
-            echo '<p>'. $value['price'] .'</p>';
-            echo '<p>'. $value['description'] .'</p>';
-            echo '</div>';
-        }
+    echo '<div class="container">';
+        echo '<div class="row">';
+            foreach ($data['results'] as $key => $value) {
+                echo '<div class="col-sm-6 col-md-4">';
+                    echo '<img class="img-responsive" src="'. $value['photos']['1']['versions']['large']['url'] .'" />';
+                    echo '<p class="text-left font-weight-bold">'. $value['headline'] .'</p>';
+                    echo '<p class="text-left">$'. $value['price'] .'</p>';
+                    echo '<p class="text-left">Number of bedrooms: '. $value['bedrooms'] .'</p>';
+                    echo '<p class="text-left">Number of bathrooms: '. $value['bathrooms'] .'</p>';
+                    echo '<p class="text-left">Number of floors: '. $value['number_of_floors'] .'</p>';
+                echo '</div>';
+            }
+        echo '</div>';
     echo '</div>';
 }
 ?>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <?php for($i = 0; $i <= $data['total_pages']; $i++) {?>
+            <li class="page-item"><a class="page-link" href="
+                <?php str_replace('&page_number=' . ($_GET['page_number'] != null ? $_GET['page_number'] : ''), '&page_number=' . ($i+1), $_SERVER['QUERY_STRING']);
+                ?>"><?php echo $i+1;?></a></li>
+        <?php }?>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
 <?php get_footer();?>
