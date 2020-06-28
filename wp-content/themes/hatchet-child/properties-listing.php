@@ -32,8 +32,8 @@ $vendor_id = isset($_GET['vendor_id']) ? $_GET['vendor_id'] : '';
 $project_id = isset($_GET['project_id']) ? $_GET['project_id'] : '';
 $created_at = isset($_GET['created_at']) ? $_GET['created_at'] : '';
 $updated_at = isset($_GET['updated_at']) ? $_GET['updated_at'] : '';
-$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : '';
-$page = isset($_GET['page_number']) ? $_GET['page_number'] : '';
+$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 100;
+$page = isset($_GET['page_number']) ? $_GET['page_number'] : 1;
 $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : '';
 $order_dir = isset($_GET['order_dir']) ? $_GET['order_dir'] : '';
 $minimal = isset($_GET['minimal']) ? $_GET['minimal'] : '';
@@ -89,102 +89,142 @@ curl_close($ch);
 // end curl
 
 ?>
-<style>
-    .grid-container {
-        display: grid;
-        grid-template-columns: auto auto auto;
-        padding: 10px;
-        margin: 10px;
-    }
-</style>
-<div style="width: 300px; margin-left: 500px;">
+<div class="container">
     <form method="get">
-        <label>ID: </label><br>
-        <input type="text" id="identity" name="identity"><br>
-        <label>Office ID:</label><br>
-        <input type="text" id="office_id" name="office_id"><br>
-        <label>xml_id:</label><br>
-        <input type="text" id="xml_id" name="xml_id"><br>
-        <label>status:</label><br>
-        <input type="text" id="status" name="status"><br>
-        <label>type:</label><br>
-        <input type="text" id="type" name="type"><br>
-        <label>property_type:</label><br>
-        <input type="text" id="property_type" name="property_type"><br>
-        <label>postcode:</label><br>
-        <input type="text" id="postcode" name="postcode"><br>
-        <label>suburb:</label><br>
-        <input type="text" id="suburb" name="suburb"><br>
-        <label>deal_type:</label><br>
-        <input type="text" id="deal_type" name="deal_type"><br>
-        <label>price:</label><br>
-        <input type="price" id="per_page" name="price"><br>
-        <label>bedrooms:</label><br>
-        <input type="text" id="bedrooms" name="bedrooms"><br>
-        <label>cars:</label><br>
-        <input type="text" id="cars" name="cars"><br>
-        <label>land_area:</label><br>
-        <input type="text" id="land_area" name="land_area"><br>
-        <label>land_frontage:</label><br>
-        <input type="text" id="land_frontage" name="land_frontage"><br>
-        <label>number_of_floors:</label><br>
-        <input type="text" id="number_of_floors" name="number_of_floors"><br>
-        <label>features:</label><br>
-        <input type="text" id="features" name="features"><br>
-        <label>opentimes:</label><br>
-        <input type="text" id="opentimes" name="opentimes"><br>
-        <label>agent_id:</label><br>
-        <input type="text" id="agent_id" name="agent_id"><br>
-        <label>vendor_id:</label><br>
-        <input type="text" id="vendor_id" name="vendor_id"><br>
-        <label>project_id:</label><br>
-        <input type="text" id="project_id" name="project_id"><br>
-        <label>created_at:</label><br>
-        <input type="text" id="created_at" name="created_at"><br>
-        <label>updated_at:</label><br>
-        <input type="text" id="updated_at" name="updated_at"><br>
-        <label>per_page:</label><br>
-        <input type="text" id="per_page" name="per_page"><br>
-        <label>page:</label><br>
-        <input type="text" id="page_number" name="page_number"><br>
-        <label>order_by:</label><br>
-        <input type="text" id="order_by" name="order_by"><br>
-        <label>order_dir:</label><br>
-        <input type="text" id="order_dir" name="order_dir"><br>
-        <label>minimal:</label><br>
-        <input type="text" id="minimal" name="minimal"><br>
-        <label>require:</label><br>
-        <input type="text" id="require" name="require"><br><br>
-        <input type="submit" value="Submit">
+        <div class="form-group">
+            <label>ID: </label>
+            <input type="text" id="identity" name="identity" class="form-control" value="<?php echo (isset($_GET['identity']) && $_GET['identity'] != null) ? $_GET['identity'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>Office ID:</label>
+            <input type="text" id="office_id" name="office_id" class="form-control" value="<?php echo (isset($_GET['office_id']) && $_GET['office_id'] != null) ? $_GET['office_id'] : '' ?>">
+        </div>
+<!--        <div class="form-group">-->
+<!--            <label>xml_id:</label>-->
+<!--            <input type="text" id="xml_id" name="xml_id" class="form-control" value="--><?php //echo (isset($_GET['xml_id']) && $_GET['xml_id'] != null) ? $_GET['xml_id'] : '' ?><!--">-->
+<!--        </div>-->
+        <div class="form-group">
+            <label>status:</label>
+            <input type="text" id="status" name="status" class="form-control" value="<?php echo (isset($_GET['status']) && $_GET['status'] != null) ? $_GET['status'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>type:</label>
+            <input type="text" id="type" name="type" class="form-control" value="<?php echo (isset($_GET['type']) && $_GET['type'] != null) ? $_GET['type'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>property_type:</label>
+            <input type="text" id="property_type" name="property_type" class="form-control" value="<?php echo (isset($_GET['property_type']) && $_GET['property_type'] != null) ? $_GET['property_type'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>postcode:</label>
+            <input type="text" id="postcode" name="postcode" class="form-control" value="<?php echo (isset($_GET['postcode']) && $_GET['postcode'] != null) ? $_GET['postcode'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>suburb:</label>
+            <input type="text" id="suburb" name="suburb" class="form-control" value="<?php echo (isset($_GET['suburb']) && $_GET['suburb'] != null) ? $_GET['suburb'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>deal_type:</label>
+            <input type="text" id="deal_type" name="deal_type" class="form-control" value="<?php echo (isset($_GET['deal_type']) && $_GET['deal_type'] != null) ? $_GET['deal_type'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>price:</label>
+            <input type="price" id="per_page" name="price" class="form-control" value="<?php echo (isset($_GET['price']) && $_GET['price'] != null) ? $_GET['price'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>bedrooms:</label>
+            <input type="text" id="bedrooms" name="bedrooms" class="form-control" value="<?php echo (isset($_GET['bedrooms']) && $_GET['bedrooms'] != null) ? $_GET['bedrooms'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>cars:</label>
+            <input type="text" id="cars" name="cars" class="form-control" value="<?php echo (isset($_GET['cars']) && $_GET['cars'] != null) ? $_GET['cars'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>land_area:</label>
+            <input type="text" id="land_area" name="land_area" class="form-control" value="<?php echo (isset($_GET['land_area']) && $_GET['land_area'] != null) ? $_GET['land_area'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>land_frontage:</label>
+            <input type="text" id="land_frontage" name="land_frontage" class="form-control" value="<?php echo (isset($_GET['land_frontage']) && $_GET['land_frontage'] != null) ? $_GET['land_frontage'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>number_of_floors:</label>
+            <input type="text" id="number_of_floors" name="number_of_floors" class="form-control" value="<?php echo (isset($_GET['number_of_floors']) && $_GET['number_of_floors'] != null) ? $_GET['number_of_floors'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>features:</label>
+            <input type="text" id="features" name="features" class="form-control" value="<?php echo (isset($_GET['features']) && $_GET['features'] != null) ? $_GET['features'] : '' ?>">
+        </div>
+        <div class="form-group">
+            <label>opentimes:</label>
+            <input type="text" id="opentimes" name="opentimes" class="form-control" value="<?php echo (isset($_GET['opentimes']) && $_GET['opentimes'] != null) ? $_GET['opentimes'] : '' ?>">
+        </div>
+<!--        <div class="form-group">-->
+<!--            <label>agent_id:</label>-->
+<!--            <input type="text" id="agent_id" name="agent_id" class="form-control" value="--><?php //echo (isset($_GET['agent_id']) && $_GET['agent_id'] != null) ? $_GET['agent_id'] : '' ?><!--">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>vendor_id:</label>-->
+<!--            <input type="text" id="vendor_id" name="vendor_id" class="form-control" value="--><?php //echo (isset($_GET['vendor_id']) && $_GET['vendor_id'] != null) ? $_GET['vendor_id'] : '' ?><!--">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>project_id:</label>-->
+<!--            <input type="text" id="project_id" name="project_id" class="form-control" value="--><?php //echo (isset($_GET['project_id']) && $_GET['project_id'] != null) ? $_GET['project_id'] : '' ?><!--">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>order_by:</label>-->
+<!--            <input type="text" id="order_by" name="order_by" class="form-control" value="--><?php //echo (isset($_GET['order_by']) && $_GET['order_by'] != null) ? $_GET['order_by'] : '' ?><!--">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>order_dir:</label>-->
+<!--            <input type="text" id="order_dir" name="order_dir" class="form-control" value="--><?php //echo (isset($_GET['order_dir']) && $_GET['order_dir'] != null) ? $_GET['order_dir'] : '' ?><!--">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>minimal:</label>-->
+<!--            <input type="text" id="minimal" name="minimal" class="form-control" value="--><?php //echo (isset($_GET['minimal']) && $_GET['minimal'] != null) ? $_GET['minimal'] : '' ?><!--">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>require:</label>-->
+<!--            <input type="text" id="require" name="require" class="form-control" value="--><?php //echo (isset($_GET['require']) && $_GET['require'] != null) ? $_GET['require'] : '' ?><!--">-->
+<!--        </div>-->
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 <?php
 if (isset($data)) {
     echo '<div class="container">';
         echo '<div class="row">';
-            foreach ($data['results'] as $key => $value) {
-                echo '<div class="col-sm-6 col-md-4">';
+            if (count($data['results']) > 0) {
+                foreach ($data['results'] as $key => $value) {
+                    echo '<div class="col-sm-6 col-md-3">';
                     echo '<img class="img-responsive" src="'. $value['photos']['1']['versions']['large']['url'] .'" />';
                     echo '<p class="text-left font-weight-bold">'. $value['headline'] .'</p>';
                     echo '<p class="text-left">$'. $value['price'] .'</p>';
                     echo '<p class="text-left">Number of bedrooms: '. $value['bedrooms'] .'</p>';
                     echo '<p class="text-left">Number of bathrooms: '. $value['bathrooms'] .'</p>';
                     echo '<p class="text-left">Number of floors: '. $value['number_of_floors'] .'</p>';
-                echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<h3>No result is found</h3>';
             }
         echo '</div>';
     echo '</div>';
 }
 ?>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <?php for($i = 0; $i <= $data['total_pages']; $i++) {?>
-            <li class="page-item"><a class="page-link" href="
-                <?php str_replace('&page_number=' . ($_GET['page_number'] != null ? $_GET['page_number'] : ''), '&page_number=' . ($i+1), $_SERVER['QUERY_STRING']);
-                ?>"><?php echo $i+1;?></a></li>
-        <?php }?>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
+<div class="container text-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <?php for($i = 0; $i < $data['total_pages']; $i++) {?>
+                <li class="page-item <?php echo (isset($_GET['page_number']) && $_GET['page_number'] == $i+1 || ($i+1 == 1 && !isset($_GET['page_number']))) ? 'active' : '' ?>"><a class="page-link" href="
+                    <?php
+                        $query = $_GET;
+                        $query['page_number'] = $i+1;
+                        echo $url=$_SERVER['PHP_SELF']. '/properties?' .  http_build_query($query);
+                    ?>
+                "><?php echo $i+1;?> <?php echo (isset($_GET['page_number']) && $_GET['page_number'] == $i+1 || ($i+1 == 1 && !isset($_GET['page_number']))) ? '<span class="sr-only">(current)</span>' : '' ?></a></li>
+            <?php }?>
+        </ul>
+    </nav>
+</div>
 <?php get_footer();?>
