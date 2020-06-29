@@ -10,6 +10,7 @@ $token = '827f01934ab7e1f007eda5b79141aa28f6623d61';
 
 // prepare data
 $identity = isset($_GET['id']) ? $_GET['id'] : '';
+$page = isset($_GET['page_number']) ? $_GET['page_number'] : '';
 
 // build url
 $paramArray = [
@@ -31,6 +32,25 @@ curl_setopt_array($ch, [
 $data = json_decode(curl_exec($ch), true);
 $data = $data['results']['0'];
 curl_close($ch);
+
+$paramArrayRelate = [
+    'page' => $page,
+    'token' => $token,
+];
+
+$paramArrayRelate = array_filter($paramArrayRelate); // remove any false or null or empty values from array
+$paramRelate = http_build_query($paramArrayRelate);
+$urlRelate = $end_point_url . $target . $paramRelate;
+
+$chRelate = curl_init();
+curl_setopt_array($chRelate, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_URL => $urlRelate,
+]);
+$dataRelate = json_decode(curl_exec($chRelate), true);
+$dataRelate = $dataRelate['results'];
+$randIndex = array_rand($dataRelate, 4);
+curl_close($chRelate);
 // end curl
 ?>
 
@@ -41,10 +61,25 @@ curl_close($ch);
     <div class="col-sm-12 col-md-8">
         <p class="text-left font-weight-bold"><?php echo $data['headline'] ?></p>
         <p class="text-justify font-weight-bold"><?php echo $data['description'] ?></p>
-        <p class="text-left">Price: $ <?php echo $data['price'] ?></p>
+        <p class="text-left">Price: $<?php echo $data['price'] ?></p>
         <p class="text-left">Number of bedrooms: <?php echo $data['bedrooms'] ?></p>
         <p class="text-left">Number of bathrooms: <?php echo $data['bathrooms'] ?></p>
         <p class="text-left">Number of floors: <?php echo $data['number_of_floors'] ?></p>
+    </div>
+    <div class="col-sm-12">
+        <h5>Maybe you are interested</h5>
+            <div class="row">
+                <?php for ($i = 0; $i < count($randIndex); $i++) {?>
+                    <div class="col-sm-12 col-md-3">
+                        <img src="<?php echo $dataRelate[$randIndex[$i]]['photos']['1']['versions']['large']['url'] ?>" alt="image" class="img-responsive">
+                        <p class="text-left font-weight-bold"><?php echo $dataRelate[$randIndex[$i]]['headline'] ?></p>
+                        <p class="text-left">Price: $<?php echo $dataRelate[$randIndex[$i]]['price'] ?></p>
+                        <p class="text-left">Number of bedrooms: <?php echo $dataRelate[$randIndex[$i]]['bedrooms'] ?></p>
+                        <p class="text-left">Number of bathrooms: <?php echo $dataRelate[$randIndex[$i]]['bathrooms'] ?></p>
+                        <p class="text-left">Number of floors: <?php echo $dataRelate[$randIndex[$i]]['number_of_floors'] ?></p>
+                    </div>
+                <?php }?>
+            </div>
     </div>
 </div>
 

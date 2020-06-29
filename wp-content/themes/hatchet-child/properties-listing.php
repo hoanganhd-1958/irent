@@ -198,7 +198,7 @@ if (isset($data)) {
                 foreach ($data['results'] as $key => $value) {
                     echo '<div class="col-sm-6 col-md-3">';
                     echo '<img class="img-responsive" src="'. $value['photos']['1']['versions']['large']['url'] .'" />';
-                    echo '<p class="text-left font-weight-bold"><a href="/property-detail/?id=' . $value['id'] . '">'. $value['headline'] .'</a></p>';
+                    echo '<p class="text-left font-weight-bold"><a href="/property-detail/?id=' . $value['id'] . '&page_number=' . (isset($_GET['page_number']) ? $_GET['page_number'] : 1)  . '">'. $value['headline'] .'</a></p>';
                     echo '<p class="text-left">$'. $value['price'] .'</p>';
                     echo '<p class="text-left">Number of bedrooms: '. $value['bedrooms'] .'</p>';
                     echo '<p class="text-left">Number of bathrooms: '. $value['bathrooms'] .'</p>';
