@@ -54,33 +54,52 @@ curl_close($chRelate);
 // end curl
 ?>
 
-<div class="container" style="margin-top: 20px;">
-    <div class="col-sm-12 col-md-4">
-        <img src="<?php echo $data['photos']['1']['versions']['large']['url'] ?>" alt="image" class="img-responsive">
-    </div>
-    <div class="col-sm-12 col-md-8">
-        <p class="text-left font-weight-bold"><?php echo $data['headline'] ?></p>
-        <p class="text-justify font-weight-bold"><?php echo $data['description'] ?></p>
-        <p class="text-left">Price: $<?php echo $data['price'] ?></p>
-        <p class="text-left">Number of bedrooms: <?php echo $data['bedrooms'] ?></p>
-        <p class="text-left">Number of bathrooms: <?php echo $data['bathrooms'] ?></p>
-        <p class="text-left">Number of floors: <?php echo $data['number_of_floors'] ?></p>
-    </div>
-    <div class="col-sm-12">
-        <h5>Maybe you are interested</h5>
+    <div class="container" style="margin-top: 20px;">
+        <div class="col-sm-12 col-md-4">
+            <img src="<?php echo $data['photos']['1']['versions']['large']['url'] ?>" alt="image" class="img-responsive">
+        </div>
+        <div class="col-sm-12 col-md-8 bds-items">
+            <h1 class="bds-title font-weight-bold"><?php echo $data['headline'] ?></h1>
+            <p class="bds-type">Type: <?php echo $data['property_type'] ?></p>
+            <ins class="price">Price: $ <?php echo $data['price'] ?></ins>
+            <p class="text-justify font-weight-bold"><?php echo $data['description'] ?></p>
+            <p>Amentities</p>
+            <ul>
+                <li><i class="fas fa-bed"></i> <?php echo $data['bedrooms'] ?></li>
+                <li><i class="fas fa-bath"></i> <?php echo $data['bathrooms'] ?></li>
+                <?php if ($value['cars']) echo '<li><i class="fas fa-car"></i> '. $data['cars'] .'</li>' ?>
+                <li><i class="fas fa-building"></i> <?php echo $data['number_of_floors'] ?></li>
+            </ul>
+        </div>
+        <div class="col-sm-12">
+            <h5>Maybe you are interested</h5>
             <div class="row">
                 <?php for ($i = 0; $i < count($randIndex); $i++) {?>
-                    <div class="col-sm-12 col-md-3">
-                        <img src="<?php echo $dataRelate[$randIndex[$i]]['photos']['1']['versions']['large']['url'] ?>" alt="image" class="img-responsive">
-                        <p class="text-left font-weight-bold"><?php echo $dataRelate[$randIndex[$i]]['headline'] ?></p>
-                        <p class="text-left">Price: $<?php echo $dataRelate[$randIndex[$i]]['price'] ?></p>
-                        <p class="text-left">Number of bedrooms: <?php echo $dataRelate[$randIndex[$i]]['bedrooms'] ?></p>
-                        <p class="text-left">Number of bathrooms: <?php echo $dataRelate[$randIndex[$i]]['bathrooms'] ?></p>
-                        <p class="text-left">Number of floors: <?php echo $dataRelate[$randIndex[$i]]['number_of_floors'] ?></p>
+                    <div class="col-sm-6 col-md-3 bds-items">
+                        <div class="item">
+                            <a href="/property-detail/?id=<?php echo $dataRelate[$randIndex[$i]]['id'] ?>&page_number=1">
+                                <img src="<?php echo $dataRelate[$randIndex[$i]]['photos']['1']['versions']['large']['url'] ?>" alt="image" class="img-responsive">
+                            </a>
+                            <div class="content">
+                                <h2 class="font-weight-bold bds-title">
+                                    <a href="/property-detail/?id=<?php echo $dataRelate[$randIndex[$i]]['id'] ?>&page_number=1">
+                                        <?php echo $dataRelate[$randIndex[$i]]['headline'] ?>
+                                    </a>
+                                </h2>
+                                <p class="bds-type">Type: <?php echo $dataRelate[$randIndex[$i]]['property_type'] ?></p>
+                                <ins class="price">Price: $ <?php echo $dataRelate[$randIndex[$i]]['price'] ?></ins>
+                                <ul>
+                                    <li><i class="fas fa-bed"></i> <?php echo $dataRelate[$randIndex[$i]]['bedrooms'] ?></li>
+                                    <li><i class="fas fa-bath"></i> <?php echo $dataRelate[$randIndex[$i]]['bathrooms'] ?></li>
+                                    <?php if ($value['cars']) echo '<li><i class="fas fa-car"></i> '. $dataRelate[$randIndex[$i]]['cars'] .'</li>'?>
+                                    <li><i class="fas fa-building"></i> <?php echo $dataRelate[$randIndex[$i]]['number_of_floors'] ?></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 <?php }?>
             </div>
+        </div>
     </div>
-</div>
 
 <?php get_footer();?>
