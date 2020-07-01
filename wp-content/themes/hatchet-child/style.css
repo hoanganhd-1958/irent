@@ -153,7 +153,35 @@ body .LightForm .gfield .ginput_container input, body .LightForm .gfield .ginput
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+.api-search {
+    border: 1px solid #2c2c2c;
+    padding: 20px;
+    margin: 30px 0;
+    background: #2c2c2c;
+    color: #fff;
+    border-radius: 4px;
+}
+.bds-title a:hover {
+    color: #c79332;
+}
+.bds-type {
+    margin-bottom: 0;
+}
+.single-bds-title {
+    font-size: 30px;
+}
+.api-search button {
+    background-color: #c79332;
+    border-color: #c79332;
+    width: 100%;
+}
+.api-search .form-control {
+    height: 40px;
+}
+.api-search button.btn.btn-primary {
+    background-color: #204d74;
+    border-color: #122b40
+}
 @media all and (max-width:768px) {
     .headerBtn {
         display: block !important;
