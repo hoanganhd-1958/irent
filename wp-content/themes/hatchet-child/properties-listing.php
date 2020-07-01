@@ -89,60 +89,85 @@ curl_close($ch);
 // end curl
 
 ?>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-    <div class="container" style="padding: 20px 0px;">
-        <form method="get">
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+    <script>
+        jQuery(document).ready(function($){
+            $("#price-range").ionRangeSlider({
+                min: 100000,
+                max: 10000000,
+                from: 100000,
+                step: 10000
+                // skin: 'round'
+            });
+        })
+    </script>
+    <div class="container">
+        <form method="get" class="api-search">
             <div class="row">
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <label>ID </label>
+                        <!-- <label>ID </label> -->
                         <input type="text" id="identity" name="identity" class="form-control"
-                               value="<?php echo (isset($_GET['identity']) && $_GET['identity'] != null) ? $_GET['identity'] : '' ?>">
+                               value="<?php echo (isset($_GET['identity']) && $_GET['identity'] != null) ? $_GET['identity'] : '' ?>" placeholder="ID">
                     </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group">
+                        <!-- <label>Type</label> -->
+                        <input type="text" id="type" name="type" class="form-control"
+                               value="<?php echo (isset($_GET['type']) && $_GET['type'] != null) ? $_GET['type'] : '' ?>" placeholder="Type">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group">
+                        <!-- <label>Property type</label> -->
+                        <input type="text" id="property_type" name="property_type" class="form-control"
+                               value="<?php echo (isset($_GET['property_type']) && $_GET['property_type'] != null) ? $_GET['property_type'] : '' ?>" placeholder="Property type">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 text-center">
+                    <!-- <label>Search</label> -->
+                    <button type="submit" class="btn"><i class="fas fa-search" aria-hidden="true"></i> Search</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9 col-md-9">
+                    <div class="form-group">
+                        <!-- <label>Price</label> -->
+                        <input type="price" id="price-range" name="price" class="form-control"
+                               value="<?php echo (isset($_GET['price']) && $_GET['price'] != null) ? $_GET['price'] : '' ?>" placeholder="Price">
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#advance-options"><i class="fas fa-cog"></i> Advance Search</button>
+                </div>
+            </div>
+            <div class="row collapse" id="advance-options">
+                <!--                     <div class="form-group">
                         <label>Office ID</label>
                         <input type="text" id="office_id" name="office_id" class="form-control"
                                value="<?php echo (isset($_GET['office_id']) && $_GET['office_id'] != null) ? $_GET['office_id'] : '' ?>">
-                    </div>
-                </div>
+                    </div> -->
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <label>Status</label>
                         <input type="text" id="status" name="status" class="form-control"
-                               value="<?php echo (isset($_GET['status']) && $_GET['status'] != null) ? $_GET['status'] : '' ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Type</label>
-                        <input type="text" id="type" name="type" class="form-control"
-                               value="<?php echo (isset($_GET['type']) && $_GET['type'] != null) ? $_GET['type'] : '' ?>">
+                               value="<?php echo (isset($_GET['status']) && $_GET['status'] != null) ? $_GET['status'] : '' ?>" placeholder="Status">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <label>Property type</label>
-                        <input type="text" id="property_type" name="property_type" class="form-control"
-                               value="<?php echo (isset($_GET['property_type']) && $_GET['property_type'] != null) ? $_GET['property_type'] : '' ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="price" id="per_page" name="price" class="form-control"
-                               value="<?php echo (isset($_GET['price']) && $_GET['price'] != null) ? $_GET['price'] : '' ?>">
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="form-group">
-                        <label>Bedrooms</label>
                         <input type="text" id="bedrooms" name="bedrooms" class="form-control"
-                               value="<?php echo (isset($_GET['bedrooms']) && $_GET['bedrooms'] != null) ? $_GET['bedrooms'] : '' ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Number of floors</label>
-                        <input type="text" id="number_of_floors" name="number_of_floors" class="form-control"
-                               value="<?php echo (isset($_GET['number_of_floors']) && $_GET['number_of_floors'] != null) ? $_GET['number_of_floors'] : '' ?>">
+                               value="<?php echo (isset($_GET['bedrooms']) && $_GET['bedrooms'] != null) ? $_GET['bedrooms'] : '' ?>" placeholder="Bedrooms">
                     </div>
                 </div>
-                <div class="col-sm-12 text-center">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-search" aria-hidden="true"></i> Search</button>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group">
+                        <input type="text" id="number_of_floors" name="number_of_floors" class="form-control"
+                               value="<?php echo (isset($_GET['number_of_floors']) && $_GET['number_of_floors'] != null) ? $_GET['number_of_floors'] : '' ?>" placeholder="Number of floors">
+                    </div>
                 </div>
             </div>
 
@@ -255,46 +280,46 @@ if (isset($data)) {
     <div class="container text-center">
         <a href="
             <?php
-            $query = $_GET;
-            $query['page_number'] = 1;
-            echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
-            ?>
+        $query = $_GET;
+        $query['page_number'] = 1;
+        echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
+        ?>
         ">
             <span class="glyphicon glyphicon-step-backward"></span>
         </a>
         <a href="
             <?php
-            $query = $_GET;
-            $query['page_number'] = !isset($_GET['page_number']) ||  $_GET['page_number'] == 1 ? 1 : $_GET['page_number'] - 1;
-            echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
-            ?>
+        $query = $_GET;
+        $query['page_number'] = !isset($_GET['page_number']) ||  $_GET['page_number'] == 1 ? 1 : $_GET['page_number'] - 1;
+        echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
+        ?>
         ">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
         <select style="width: auto" id="sel1" onchange="location = this.value;">
             <?php for ($i = 0; $i < $data['total_pages']; $i++) { ?>
                 <option value="<?php
-                    $query = $_GET;
-                    $query['page_number'] = $i + 1;
-                    echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
+                $query = $_GET;
+                $query['page_number'] = $i + 1;
+                echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
                 ?>" <?php echo isset($_GET['page_number']) && $_GET['page_number'] == $i+1 ? 'selected' : '' ?>><?php echo $i + 1;?></option>
             <?php } ?>
         </select>
         <a href="
             <?php
-            $query = $_GET;
-            $query['page_number'] = !isset($_GET['page_number']) ? 2 : ($_GET['page_number'] + 1 > $data['total_pages'] ? $data['total_pages'] : $_GET['page_number'] + 1);
-            echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
-            ?>
+        $query = $_GET;
+        $query['page_number'] = !isset($_GET['page_number']) ? 2 : ($_GET['page_number'] + 1 > $data['total_pages'] ? $data['total_pages'] : $_GET['page_number'] + 1);
+        echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
+        ?>
         ">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
         <a href="
             <?php
-            $query = $_GET;
-            $query['page_number'] = $data['total_pages'];
-            echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
-            ?>
+        $query = $_GET;
+        $query['page_number'] = $data['total_pages'];
+        echo $url = $_SERVER['PHP_SELF'] . '/properties?' . http_build_query($query);
+        ?>
         ">
             <span class="glyphicon glyphicon-step-forward"></span>
         </a>
