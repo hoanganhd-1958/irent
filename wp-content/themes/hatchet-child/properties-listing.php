@@ -87,56 +87,54 @@ curl_setopt_array($ch, [
 $data = json_decode(curl_exec($ch), true);
 curl_close($ch);
 // end curl
-
 ?>
-    <!--Plugin CSS file with desired skin-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
-    <!--Plugin JavaScript file-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
-    <script>
-        jQuery(document).ready(function($){
-            $("#price-range").ionRangeSlider({
-                min: 100000,
-                max: 10000000,
-                from: 100000,
-                step: 10000
-                // skin: 'round'
-            });
-        })
-    </script>
+<?php if (isset($_GET['identity']) || isset($_GET['property_type']) || isset($_GET['type']) || isset($_GET['price']) || isset($_GET['status']) || isset($_GET['bedrooms']) || isset($_GET['number_of_floors'])) {?>
     <div class="container">
         <form method="get" class="api-search">
             <div class="row">
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <!-- <label>ID </label> -->
                         <input type="text" id="identity" name="identity" class="form-control"
                                value="<?php echo (isset($_GET['identity']) && $_GET['identity'] != null) ? $_GET['identity'] : '' ?>" placeholder="ID">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <!-- <label>Type</label> -->
-                        <input type="text" id="type" name="type" class="form-control"
-                               value="<?php echo (isset($_GET['type']) && $_GET['type'] != null) ? $_GET['type'] : '' ?>" placeholder="Type">
+                        <!--                            <input type="text" id="type" name="type" class="form-control"-->
+                        <!--                                   value="--><?php //echo (isset($_GET['type']) && $_GET['type'] != null) ? $_GET['type'] : '' ?><!--" placeholder="Type">-->
+                        <select class="form-control" id="type" name="type">
+                            <option value="">Please choose property type</option>
+                            <option value="ResidentialSale" <?php echo isset($_GET['type']) && $_GET['type'] == 'ResidentialSale' ? 'selected' : '' ?>>Residential Sale</option>
+                            <option value="ResidentialLease" <?php echo isset($_GET['type']) && $_GET['type'] == 'ResidentialLease' ? 'selected' : '' ?>>Residential Lease</option>
+                            <option value="HolidayLease" <?php echo isset($_GET['type']) && $_GET['type'] == 'HolidayLease' ? 'selected' : '' ?>>Holiday Lease</option>
+                            <option value="NewDevelopment" <?php echo isset($_GET['type']) && $_GET['type'] == 'NewDevelopment' ? 'selected' : '' ?>>New Development</option>
+                            <option value="Commercial" <?php echo isset($_GET['type']) && $_GET['type'] == 'Commercial' ? 'selected' : '' ?>>Commercial</option>
+                            <option value="BusinessSale" <?php echo isset($_GET['type']) && $_GET['type'] == 'BusinessSale' ? 'selected' : '' ?>>Business Sale</option>
+                            <option value="ProjectSale" <?php echo isset($_GET['type']) && $_GET['type'] == 'ProjectSale' ? 'selected' : '' ?>>Project Sale</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <!-- <label>Property type</label> -->
-                        <input type="text" id="property_type" name="property_type" class="form-control"
-                               value="<?php echo (isset($_GET['property_type']) && $_GET['property_type'] != null) ? $_GET['property_type'] : '' ?>" placeholder="Property type">
+                        <!--                            <input type="text" id="property_type" name="property_type" class="form-control"-->
+                        <!--                                   value="--><?php //echo (isset($_GET['property_type']) && $_GET['property_type'] != null) ? $_GET['property_type'] : '' ?><!--" placeholder="Property type">-->
+                        <select class="form-control" id="property_type" name="property_type">
+                            <option value="">Please choose type</option>
+                            <option value="House" <?php echo isset($_GET['property_type']) && $_GET['property_type'] == 'House' ? 'selected' : '' ?>>House</option>
+                            <option value="Studio" <?php echo isset($_GET['property_type']) && $_GET['property_type'] == 'Studio' ? 'selected' : '' ?>>Studio</option>
+                            <option value="Apartment" <?php echo isset($_GET['property_type']) && $_GET['property_type'] == 'Apartment' ? 'selected' : '' ?>>Apartment</option>
+                            <option value="Development" <?php echo isset($_GET['property_type']) && $_GET['property_type'] == 'Development' ? 'selected' : '' ?>>Development</option>
+                            <option value="Townhouse" <?php echo isset($_GET['property_type']) && $_GET['property_type'] == 'Townhouse' ? 'selected' : '' ?>>Townhouse</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 text-center">
-                    <!-- <label>Search</label> -->
                     <button type="submit" class="btn"><i class="fas fa-search" aria-hidden="true"></i> Search</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-9 col-md-9">
                     <div class="form-group">
-                        <!-- <label>Price</label> -->
                         <input type="price" id="price-range" name="price" class="form-control"
                                value="<?php echo (isset($_GET['price']) && $_GET['price'] != null) ? $_GET['price'] : '' ?>" placeholder="Price">
                     </div>
@@ -146,11 +144,6 @@ curl_close($ch);
                 </div>
             </div>
             <div class="row collapse" id="advance-options">
-                <!--                     <div class="form-group">
-                        <label>Office ID</label>
-                        <input type="text" id="office_id" name="office_id" class="form-control"
-                               value="<?php echo (isset($_GET['office_id']) && $_GET['office_id'] != null) ? $_GET['office_id'] : '' ?>">
-                    </div> -->
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
                         <input type="text" id="status" name="status" class="form-control"
@@ -159,101 +152,35 @@ curl_close($ch);
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <input type="text" id="bedrooms" name="bedrooms" class="form-control"
-                               value="<?php echo (isset($_GET['bedrooms']) && $_GET['bedrooms'] != null) ? $_GET['bedrooms'] : '' ?>" placeholder="Bedrooms">
+                        <!--                            <input type="text" id="bedrooms" name="bedrooms" class="form-control"-->
+                        <!--                                   value="--><?php //echo (isset($_GET['bedrooms']) && $_GET['bedrooms'] != null) ? $_GET['bedrooms'] : '' ?><!--" placeholder="Bedrooms">-->
+                        <select class="form-control" id="bedrooms" name="bedrooms">
+                            <option value="">Please choose number of bedrooms</option>
+                            <?php for ($i = 0; $i < 5; $i++) {?>
+                                <option value="<?php echo $i+1;?>" <?php echo isset($_GET['bedrooms']) && $_GET['bedrooms'] == $i+1 ? 'selected' : '' ?>><?php echo $i+1;?></option>
+                            <?php }?>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group">
-                        <input type="text" id="number_of_floors" name="number_of_floors" class="form-control"
-                               value="<?php echo (isset($_GET['number_of_floors']) && $_GET['number_of_floors'] != null) ? $_GET['number_of_floors'] : '' ?>" placeholder="Number of floors">
+                        <!--                            <input type="text" id="number_of_floors" name="number_of_floors" class="form-control"-->
+                        <!--                                   value="--><?php //echo (isset($_GET['number_of_floors']) && $_GET['number_of_floors'] != null) ? $_GET['number_of_floors'] : '' ?><!--" placeholder="Number of floors">-->
+                        <select class="form-control" id="floors" name="number_of_floors">
+                            <option value="">Please choose number of floors</option>
+                            <?php for ($i = 0; $i < 5; $i++) {?>
+                                <option value="<?php echo $i+1;?>" <?php echo isset($_GET['number_of_floors']) && $_GET['number_of_floors'] == $i+1 ? 'selected' : '' ?>><?php echo $i+1;?></option>
+                            <?php }?>
+                        </select>
                     </div>
                 </div>
             </div>
-
-
-
-
-            <!--         <div class="form-group">
-            <label>postcode:</label>
-            <input type="text" id="postcode" name="postcode" class="form-control" value="<?php echo (isset($_GET['postcode']) && $_GET['postcode'] != null) ? $_GET['postcode'] : '' ?>">
-        </div>
-        <div class="form-group">
-            <label>suburb:</label>
-            <input type="text" id="suburb" name="suburb" class="form-control" value="<?php echo (isset($_GET['suburb']) && $_GET['suburb'] != null) ? $_GET['suburb'] : '' ?>">
-        </div>
-        <div class="form-group">
-            <label>deal_type:</label>
-            <input type="text" id="deal_type" name="deal_type" class="form-control" value="<?php echo (isset($_GET['deal_type']) && $_GET['deal_type'] != null) ? $_GET['deal_type'] : '' ?>">
-        </div> -->
-
-            <!--         <div class="form-group">
-            <label>cars:</label>
-            <input type="text" id="cars" name="cars" class="form-control" value="<?php echo (isset($_GET['cars']) && $_GET['cars'] != null) ? $_GET['cars'] : '' ?>">
-        </div> -->
-            <!--         <div class="form-group">
-            <label>land_area:</label>
-            <input type="text" id="land_area" name="land_area" class="form-control" value="<?php echo (isset($_GET['land_area']) && $_GET['land_area'] != null) ? $_GET['land_area'] : '' ?>">
-        </div>
-        <div class="form-group">
-            <label>land_frontage:</label>
-            <input type="text" id="land_frontage" name="land_frontage" class="form-control" value="<?php echo (isset($_GET['land_frontage']) && $_GET['land_frontage'] != null) ? $_GET['land_frontage'] : '' ?>">
-        </div> -->
-
-            <!--        <div class="form-group">-->
-            <!--            <label>xml_id:</label>-->
-            <!--            <input type="text" id="xml_id" name="xml_id" class="form-control" value="-->
-            <?php //echo (isset($_GET['xml_id']) && $_GET['xml_id'] != null) ? $_GET['xml_id'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--         <div class="form-group">
-            <label>features:</label>
-            <input type="text" id="features" name="features" class="form-control" value="<?php echo (isset($_GET['features']) && $_GET['features'] != null) ? $_GET['features'] : '' ?>">
-        </div> -->
-            <!--         <div class="form-group">
-            <label>opentimes:</label>
-            <input type="text" id="opentimes" name="opentimes" class="form-control" value="<?php echo (isset($_GET['opentimes']) && $_GET['opentimes'] != null) ? $_GET['opentimes'] : '' ?>">
-        </div> -->
-            <!--        <div class="form-group">-->
-            <!--            <label>agent_id:</label>-->
-            <!--            <input type="text" id="agent_id" name="agent_id" class="form-control" value="-->
-            <?php //echo (isset($_GET['agent_id']) && $_GET['agent_id'] != null) ? $_GET['agent_id'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--        <div class="form-group">-->
-            <!--            <label>vendor_id:</label>-->
-            <!--            <input type="text" id="vendor_id" name="vendor_id" class="form-control" value="-->
-            <?php //echo (isset($_GET['vendor_id']) && $_GET['vendor_id'] != null) ? $_GET['vendor_id'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--        <div class="form-group">-->
-            <!--            <label>project_id:</label>-->
-            <!--            <input type="text" id="project_id" name="project_id" class="form-control" value="-->
-            <?php //echo (isset($_GET['project_id']) && $_GET['project_id'] != null) ? $_GET['project_id'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--        <div class="form-group">-->
-            <!--            <label>order_by:</label>-->
-            <!--            <input type="text" id="order_by" name="order_by" class="form-control" value="-->
-            <?php //echo (isset($_GET['order_by']) && $_GET['order_by'] != null) ? $_GET['order_by'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--        <div class="form-group">-->
-            <!--            <label>order_dir:</label>-->
-            <!--            <input type="text" id="order_dir" name="order_dir" class="form-control" value="-->
-            <?php //echo (isset($_GET['order_dir']) && $_GET['order_dir'] != null) ? $_GET['order_dir'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--        <div class="form-group">-->
-            <!--            <label>minimal:</label>-->
-            <!--            <input type="text" id="minimal" name="minimal" class="form-control" value="-->
-            <?php //echo (isset($_GET['minimal']) && $_GET['minimal'] != null) ? $_GET['minimal'] : '' ?><!--">-->
-            <!--        </div>-->
-            <!--        <div class="form-group">-->
-            <!--            <label>require:</label>-->
-            <!--            <input type="text" id="require" name="require" class="form-control" value="-->
-            <?php //echo (isset($_GET['require']) && $_GET['require'] != null) ? $_GET['require'] : '' ?><!--">-->
-            <!--        </div>-->
-
         </form>
     </div>
+<?php }?>
 <?php
 if (isset($data)) {
-    echo '<div class="container">';
+    echo '<div class="container" style="margin-top: 10px">';
     echo '<div class="row">';
     if (count($data['results']) > 0) {
         foreach ($data['results'] as $key => $value) {
@@ -262,10 +189,10 @@ if (isset($data)) {
             echo '<div class="content"><h2 class="font-weight-bold bds-title"><a href="/property-detail/?id=' . $value['id'] . '&page_number=' . (isset($_GET['page_number']) ? $_GET['page_number'] : 1) . '">' . $value['headline'] . '</a></h2>';
             echo '<p class="bds-type">Type: ' . $value['property_type'] . '</p>';
             echo '<ins class="price">Price: $ ' . number_format($value['price']) . '</ins>';
-            echo '<ul><li><i class="fas fa-bed"></i> ' . $value['bedrooms'] . '</li>';
-            echo '<li><i class="fas fa-bath"></i> ' . $value['bathrooms'] . '</li>';
+            echo '<ul><li><i class="general-features__icon general-features__beds"></i> ' . $value['bedrooms'] . '</li>';
+            echo '<li><i class="general-features__icon general-features__baths"></i> ' . $value['bathrooms'] . '</li>';
             if ($value['cars']) {
-                echo '<li><i class="fas fa-car"></i> ' . $value['cars'] . '</li>';
+                echo '<li><i class="general-features__icon general-features__cars"></i> ' . $value['cars'] . '</li>';
             };
             echo '<li><i class="fas fa-building"></i> ' . $value['number_of_floors'] . '</li></ul>';
             echo '</div></div></div>';
