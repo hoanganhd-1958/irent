@@ -233,27 +233,13 @@ $image = $data['photos']['1']['versions']['large']['url'];
 
     <div class="container" style="margin-top: 20px;">
         <div class="col-sm-12 col-md-7 bds-image container-gallery">
-
-            <img src="https://unsplash.it/1920/1200?image=494" alt="">
-            <img src="https://unsplash.it/1920/1200?image=483" alt="">
-            <img src="https://unsplash.it/1920/1200?image=541" alt="">
-            <img src="https://unsplash.it/1920/1200?image=563" alt="">
-            <img src="https://unsplash.it/1920/1200?image=579" alt="">
-            <img src="https://unsplash.it/1920/1200?image=577" alt="">
-            <img src="https://unsplash.it/1920/1200?image=604" alt="">
-            <img src="https://unsplash.it/1920/1200?image=611" alt="">
-            <img src="https://unsplash.it/1920/1200?image=623" alt="">
-            <img src="https://unsplash.it/1920/1200?image=628" alt="">
-            <img src="https://unsplash.it/1920/1200?image=646" alt="">
             <?php if ($image) : ?>
                 <img src="<?php echo $image;?>" alt="image" class="img-responsive">
             <?php else:?>
                 <img class="img-responsive" src="<?php echo get_stylesheet_directory_uri() ?>/img/no-image.jpg" />
             <?php endif;?>
         </div>
-        <div class="col-sm-12 col-md-5 acf-map">
-        <div class="maker" data-lat="<?php echo $data['address']['latitude']?>" data-lng="<?php echo $data['address']['longitude']?>"></div>
-        </div>
+
         <div class="col-sm-12 bds-items" style="margin-top: 10px;">
             <h1 class="bds-title single-bds-title font-weight-bold"><?php echo $data['headline'] ?></h1>
             <p class="bds-type">Type: <?php echo $data['property_type'] ?></p>
@@ -266,7 +252,15 @@ $image = $data['photos']['1']['versions']['large']['url'];
                 <?php if ($value['cars']) echo '<li><i class="general-features__icon general-features__cars"></i> '. $data['cars'] .'</li>' ?>
                 <li><i class="fas fa-building"></i> Floors: <?php echo $data['number_of_floors'] ?></li>
             </ul>
+            <p class="bds-type">Staff's name: John Doe</p>
+            <p class="bds-type">Phone number: 1900.1991</p>
         </div>
+
+        <h6 style="margin-bottom:0;"><strong>Map</strong></h6>
+        <div class="col-sm-12 acf-map">
+            <div class="maker" data-lat="<?php echo $data['address']['latitude']?>" data-lng="<?php echo $data['address']['longitude']?>"></div>
+        </div>
+
         <div class="col-sm-12">
             <h5>Maybe you are interested</h5>
             <div class="row">
