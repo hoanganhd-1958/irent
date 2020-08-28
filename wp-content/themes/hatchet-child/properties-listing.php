@@ -6,7 +6,7 @@ get_header();
 // config
 $end_point_url = 'http://api2.agentaccount.com:80/';
 $target = 'properties/?';
-$token = '827f01934ab7e1f007eda5b79141aa28f6623d61';
+$token = '198739a17a419ab3fd5d5f58548d69993e51b276';
 
 // prepare data
 $identity = isset($_GET['identity']) ? $_GET['identity'] : '';

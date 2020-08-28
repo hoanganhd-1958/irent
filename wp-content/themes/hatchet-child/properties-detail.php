@@ -1,179 +1,3 @@
-<style type="text/css">
-    .acf-map {
-        width: 100%;
-        height: 400px;
-        border: #ccc solid 1px;
-        margin: 20px 0;
-    }
-
-    // Fixes potential theme css conflict.
-       .acf-map img {
-           max-width: inherit !important;
-       }
-</style>
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() ?>/gallery.css">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxRSTwfrdz1WYqa15Du6NgUFOyQ8DMwtk"></script>
-<script src="<?php echo get_stylesheet_directory_uri() ?>/gallery.js"></script>
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>-->
-
-
-<script type="text/javascript">
-    (function( $ ) {
-
-        /**
-         * initMap
-         *
-         * Renders a Google Map onto the selected jQuery element
-         *
-         * @date    22/10/19
-         * @since   5.8.6
-         *
-         * @param   jQuery $el The jQuery element.
-         * @return  object The map instance.
-         */
-        function initMap( $el ) {
-
-            // Find marker elements within map.
-            var $markers = $el.find('.marker');
-
-            // Create gerenic map.
-            var mapArgs = {
-                zoom        : $el.data('zoom') || 16,
-                mapTypeId   : google.maps.MapTypeId.ROADMAP
-            };
-            var map = new google.maps.Map( $el[0], mapArgs );
-
-            // Add markers.
-            map.markers = [];
-            $markers.each(function(){
-                initMarker( $(this), map );
-            });
-
-            // Center map based on markers.
-            centerMap( map );
-
-            // Return map instance.
-            return map;
-        }
-
-        /**
-         * initMarker
-         *
-         * Creates a marker for the given jQuery element and map.
-         *
-         * @date    22/10/19
-         * @since   5.8.6
-         *
-         * @param   jQuery $el The jQuery element.
-         * @param   object The map instance.
-         * @return  object The marker instance.
-         */
-        function initMarker( $marker, map ) {
-
-            // Get position from marker.
-            var lat = $marker.data('lat');
-            var lng = $marker.data('lng');
-            var latLng = {
-                lat: parseFloat( lat ),
-                lng: parseFloat( lng )
-            };
-
-            // Create marker instance.
-            var marker = new google.maps.Marker({
-                position : latLng,
-                map: map
-            });
-
-            // Append to reference for later use.
-            map.markers.push( marker );
-
-            // If marker contains HTML, add it to an infoWindow.
-            if( $marker.html() ){
-
-                // Create info window.
-                var infowindow = new google.maps.InfoWindow({
-                    content: $marker.html()
-                });
-
-                // Show info window when marker is clicked.
-                google.maps.event.addListener(marker, 'click', function() {
-                    infowindow.open( map, marker );
-                });
-            }
-        }
-
-        /**
-         * centerMap
-         *
-         * Centers the map showing all markers in view.
-         *
-         * @date    22/10/19
-         * @since   5.8.6
-         *
-         * @param   object The map instance.
-         * @return  void
-         */
-        function centerMap( map ) {
-
-            // Create map boundaries from all map markers.
-            var bounds = new google.maps.LatLngBounds();
-            map.markers.forEach(function( marker ){
-                bounds.extend({
-                    lat: marker.position.lat(),
-                    lng: marker.position.lng()
-                });
-            });
-
-            // Case: Single marker.
-            if( map.markers.length == 1 ){
-                map.setCenter( bounds.getCenter() );
-
-                // Case: Multiple markers.
-            } else{
-                map.fitBounds( bounds );
-            }
-        }
-
-// Render maps on page load.
-        $(document).ready(function(){
-            $('.acf-map').each(function(){
-                var map = initMap( $(this) );
-            });
-            $('.container-gallery').gallery({
-                height: 650,
-                items: 6,
-                480: {
-                    items: 2,
-                    height: 400,
-                    thmbHeight: 100
-                },
-                768: {
-
-                    items: 3,
-                    height: 500,
-                    thmbHeight: 120
-                },
-                600: {
-
-                    items: 4
-                },
-                992 : {
-
-                    items: 5,
-                    height: 350
-                }
-            });
-            $('.container-gallery').gallery({
-                customControls: {
-                    prevButton: prevContent,
-                    nextButton: nextContent
-                }
-            });
-        });
-
-    })(jQuery);
-</script>
 <?php
 /*
   Template Name: PROPERTIES DETAIL
@@ -182,21 +6,20 @@ get_header();
 // config
 $end_point_url = 'http://api2.agentaccount.com:80/';
 $target = 'properties/?';
-$token = '827f01934ab7e1f007eda5b79141aa28f6623d61';
+$token = '198739a17a419ab3fd5d5f58548d69993e51b276';
 
 // prepare data
 $identity = isset($_GET['id']) ? $_GET['id'] : '';
 $page = isset($_GET['page_number']) ? $_GET['page_number'] : '';
-
+$targetSingleDetail = 'properties/' . $identity . '?';
 // build url
 $paramArray = [
-    'id' => $identity,
     'token' => $token,
 ];
 
 $paramArray = array_filter($paramArray); // remove any false or null or empty values from array
 $param = http_build_query($paramArray);
-$url = $end_point_url . $target . $param;
+$url = $end_point_url . $targetSingleDetail . $param;
 // end build url
 
 // curl
@@ -206,7 +29,7 @@ curl_setopt_array($ch, [
     CURLOPT_URL => $url,
 ]);
 $data = json_decode(curl_exec($ch), true);
-$data = $data['results']['0'];
+
 curl_close($ch);
 
 $paramArrayRelate = [
@@ -228,72 +51,238 @@ $dataRelate = $dataRelate['results'];
 $randIndex = array_rand($dataRelate, 4);
 curl_close($chRelate);
 // end curl
-$image = $data['photos']['1']['versions']['large']['url'];
+// var_dump($data);
+//$image = $data['photos']['1']['versions']['large']['url'];
+$image = $data['photos'];
+var_dump($image);
 ?>
+    <div id="property-detail">
+        <div class="hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 bds-image">
+                        <div class="container-gallery">
+                            <?php if ($image) : ?>
+                                <?php foreach ($image as $key => $img) { ?>
+                                    <a href="<?php echo $img['versions']['large']['url'];?>" rel="lightbox" title=""><img src="<?php echo $img['versions']['large']['url'];?>" alt="image" class="img-responsive"></a>
+                                    <!-- <a href="https://homepages.cae.wisc.edu/~ece533/images/arctichare.png" rel="lightbox" title=""><img class="img-responsive" src="https://homepages.cae.wisc.edu/~ece533/images/arctichare.png" /></a> -->
+                                <?php } ?>
+                            <?php else:?>
+                                <img class="img-responsive" src="<?php echo get_stylesheet_directory_uri() ?>/img/no-image.jpg" />
+                            <?php endif;?>
+                        </div>
 
-    <div class="container" style="margin-top: 20px;">
-        <div class="col-sm-12 col-md-7 bds-image container-gallery">
-            <?php if ($image) : ?>
-                <img src="<?php echo $image;?>" alt="image" class="img-responsive">
-            <?php else:?>
-                <img class="img-responsive" src="<?php echo get_stylesheet_directory_uri() ?>/img/no-image.jpg" />
-            <?php endif;?>
-        </div>
-
-        <div class="col-sm-12 bds-items" style="margin-top: 10px;">
-            <h1 class="bds-title single-bds-title font-weight-bold"><?php echo $data['headline'] ?></h1>
-            <p class="bds-type">Type: <?php echo $data['property_type'] ?></p>
-            <p class="price">Price: $ <?php echo $data['price'] ?></p>
-            <p class="text-justify font-weight-bold"><?php echo $data['description'] ?></p>
-            <h6 style="margin-bottom:0;"><strong>Amentities</strong></h6>
-            <ul>
-                <li><i class="general-features__icon general-features__beds"></i> Bed room: <?php echo $data['bedrooms'] ?></li>
-                <li><i class="general-features__icon general-features__baths"></i> Bath room: <?php echo $data['bathrooms'] ?></li>
-                <?php if ($value['cars']) echo '<li><i class="general-features__icon general-features__cars"></i> '. $data['cars'] .'</li>' ?>
-                <li><i class="fas fa-building"></i> Floors: <?php echo $data['number_of_floors'] ?></li>
-            </ul>
-            <p class="bds-type">Staff's name: John Doe</p>
-            <p class="bds-type">Phone number: 1900.1991</p>
-        </div>
-
-        <h6 style="margin-bottom:0;"><strong>Map</strong></h6>
-        <div class="col-sm-12 acf-map">
-            <div class="maker" data-lat="<?php echo $data['address']['latitude']?>" data-lng="<?php echo $data['address']['longitude']?>"></div>
-        </div>
-
-        <div class="col-sm-12">
-            <h5>Maybe you are interested</h5>
-            <div class="row">
-                <?php for ($i = 0; $i < count($randIndex); $i++) {$img = $dataRelate[$randIndex[$i]]['photos']['1']['versions']['large']['url'];?>
-                    <div class="col-sm-6 col-md-3 bds-items">
-                        <div class="item">
-                            <?php
-                            if ($img) {
-                                echo '<a href="/property-detail/?id=' . $dataRelate[$randIndex[$i]]['id'] . '&page_number=1"><img class="img-responsive" src="' . $img . '" /></a>';
-                            } else {
-                                echo '<a href="/property-detail/?id=' . $dataRelate[$randIndex[$i]]['id'] . '&page_number=1"><img class="img-responsive" src="' . get_stylesheet_directory_uri() . '/img/no-image.jpg" /></a>';
-                            }
-                            ?>
-                            <div class="content">
-                                <h2 class="font-weight-bold bds-title">
-                                    <a href="/property-detail/?id=<?php echo $dataRelate[$randIndex[$i]]['id'] ?>&page_number=1">
-                                        <?php echo $dataRelate[$randIndex[$i]]['headline'] ?>
-                                    </a>
-                                </h2>
-                                <p class="bds-type">Type: <?php echo $dataRelate[$randIndex[$i]]['property_type'] ?></p>
-                                <ins class="price">Price: $ <?php echo $dataRelate[$randIndex[$i]]['price'] ?></ins>
-                                <ul>
-                                    <li><i class="general-features__icon general-features__beds"></i> <?php echo $dataRelate[$randIndex[$i]]['bedrooms'] ?></li>
-                                    <li><i class="general-features__icon general-features__baths"></i> <?php echo $dataRelate[$randIndex[$i]]['bathrooms'] ?></li>
-                                    <?php if ($value['cars']) echo '<li><i class="general-features__icon general-features__cars"></i> '. $dataRelate[$randIndex[$i]]['cars'] .'</li>'?>
-                                    <li><i class="fas fa-building"></i> <?php echo $dataRelate[$randIndex[$i]]['number_of_floors'] ?></li>
-                                </ul>
-                            </div>
+                    </div>
+                    <div class="col-sm-12 bds-image">
+                        <div class="container-gallery-2">
+                            <?php if ($image) : ?>
+                                <?php foreach ($image as $key => $img) { ?>
+                                    <a href="<?php echo $img['versions']['large']['url'];?>" rel="lightbox" title=""><img src="<?php echo $img['versions']['large']['url'];?>" alt="image" class="img-responsive"></a>
+                                    <!-- <a href="https://homepages.cae.wisc.edu/~ece533/images/arctichare.png" rel="lightbox" title=""><img class="img-responsive" src="https://homepages.cae.wisc.edu/~ece533/images/arctichare.png" /></a> -->
+                                <?php } ?>
+                            <?php else:?>
+                                <img class="img-responsive" src="<?php echo get_stylesheet_directory_uri() ?>/img/no-image.jpg" />
+                            <?php endif;?>
                         </div>
                     </div>
-                <?php }?>
+                </div>
+            </div>
+        </div>
+        <div class="contact-details">
+            <div id="property-contact" class="container">
+                <div class="contact-panel">
+                    <div class="contact-info">
+                        <ul class="detail"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-9 bds-items">
+                        <h1 class="bds-title single-bds-title font-weight-bold"><?php echo $data['headline'] ?></h1>
+                        <p class="bds-type">Type: <?php echo $data['property_type'] ?></p>
+                        <p class="price">Price: $ <?php echo $data['price'] ?></p>
+                        <p class="text-justify font-weight-bold"><?php echo $data['description'] ?></p>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-3 bds-items">
+                        <ul class="property-keyfeatures">
+                            <li class="property-keyfeature"><i class="ui-feature-icon -bedrooms"></i> <span class="value"><?php echo $data['bedrooms'] ?> Beds</span></li>
+                            <li class="property-keyfeature"><i class="ui-feature-icon -bathrooms"></i> <span class="value"><?php echo $data['bathrooms'] ?> Baths</span></li>
+                            <?php if ($value['cars']) echo '<li><i class="ui-feature-icon -cars"></i> <span class="value">'. $data['cars'] .' Cars</span></li>' ?>
+                            <li class="property-keyfeature"><i class="ui-feature-icon fas fa-building"></i> <span class="value"><?php echo $data['number_of_floors'] ?> Floors</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="acf-map" data-zoom="16">
+                            <div class="marker" data-lat="<?php echo $data['address']['latitude']?>" data-lng="<?php echo $data['address']['longitude']?>"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Maybe you are interested</h5>
+                        <div class="row">
+                            <?php for ($i = 0; $i < count($randIndex); $i++) {$img = $dataRelate[$randIndex[$i]]['photos']['1']['versions']['large']['url'];?>
+                                <div class="col-sm-6 col-md-3 bds-items">
+                                    <div class="item">
+                                        <?php
+                                        if ($img) {
+                                            echo '<a href="/property-detail/?id=' . $dataRelate[$randIndex[$i]]['id'] . '&page_number=1"><img class="img-responsive" src="' . $img . '" /></a>';
+                                        } else {
+                                            echo '<a href="/property-detail/?id=' . $dataRelate[$randIndex[$i]]['id'] . '&page_number=1"><img class="img-responsive" src="' . get_stylesheet_directory_uri() . '/img/no-image.jpg" /></a>';
+                                        }
+                                        ?>
+                                        <div class="content">
+                                            <h2 class="font-weight-bold bds-title">
+                                                <a href="/property-detail/?id=<?php echo $dataRelate[$randIndex[$i]]['id'] ?>&page_number=1">
+                                                    <?php echo $dataRelate[$randIndex[$i]]['headline'] ?>
+                                                </a>
+                                            </h2>
+                                            <p class="bds-type">Type: <?php echo $dataRelate[$randIndex[$i]]['property_type'] ?></p>
+                                            <ins class="price">Price: $ <?php echo $dataRelate[$randIndex[$i]]['price'] ?></ins>
+                                            <ul>
+                                                <li><i class="general-features__icon general-features__beds"></i> <?php echo $dataRelate[$randIndex[$i]]['bedrooms'] ?></li>
+                                                <li><i class="general-features__icon general-features__baths"></i> <?php echo $dataRelate[$randIndex[$i]]['bathrooms'] ?></li>
+                                                <?php if ($value['cars']) echo '<li><i class="general-features__icon general-features__cars"></i> '. $dataRelate[$randIndex[$i]]['cars'] .'</li>'?>
+                                                <li><i class="fas fa-building"></i> <?php echo $dataRelate[$randIndex[$i]]['number_of_floors'] ?></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvtOpplWFO0YSMYDpzs8JFevdXX9bmvZw"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        (function( $ ) {
+            function initMap( $el ) {
 
+                // Find marker elements within map.
+                var $markers = $el.find('.marker');
+
+                // Create gerenic map.
+                var mapArgs = {
+                    zoom        : $el.data('zoom') || 16,
+                    mapTypeId   : google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map( $el[0], mapArgs );
+
+                // Add markers.
+                map.markers = [];
+                $markers.each(function(){
+                    initMarker( $(this), map );
+                });
+
+                // Center map based on markers.
+                centerMap( map );
+
+                // Return map instance.
+                return map;
+            }
+
+            function initMarker( $marker, map ) {
+
+                // Get position from marker.
+                var lat = $marker.data('lat');
+                var lng = $marker.data('lng');
+                var latLng = {
+                    lat: parseFloat( lat ),
+                    lng: parseFloat( lng )
+                };
+
+                // Create marker instance.
+                var marker = new google.maps.Marker({
+                    position : latLng,
+                    map: map
+                });
+
+                // Append to reference for later use.
+                map.markers.push( marker );
+
+                // If marker contains HTML, add it to an infoWindow.
+                if( $marker.html() ){
+
+                    // Create info window.
+                    var infowindow = new google.maps.InfoWindow({
+                        content: $marker.html()
+                    });
+
+                    // Show info window when marker is clicked.
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infowindow.open( map, marker );
+                    });
+                }
+            }
+
+            function centerMap( map ) {
+
+                // Create map boundaries from all map markers.
+                var bounds = new google.maps.LatLngBounds();
+                map.markers.forEach(function( marker ){
+                    bounds.extend({
+                        lat: marker.position.lat(),
+                        lng: marker.position.lng()
+                    });
+                });
+
+                // Case: Single marker.
+                if( map.markers.length == 1 ){
+                    map.setCenter( bounds.getCenter() );
+
+                    // Case: Multiple markers.
+                } else{
+                    map.fitBounds( bounds );
+                }
+            }
+
+            // Render maps on page load.
+            $(document).ready(function(){
+                $('.acf-map').each(function(){
+                    var map = initMap( $(this) );
+                });
+            });
+        })(jQuery);
+        jQuery(document).ready(function($){
+            $.ajax({
+                type : 'get',
+                dataType : 'text',
+                url : '<?php echo admin_url( "admin-ajax.php" ); ?>',
+                data: {
+                    'action' : 'ajax_load_more_2',
+                    'id' : <?php echo $data['agent_id_1']; ?>
+                },
+                success : function (result){
+                    $('ul.detail').append(result);
+                }
+            });
+            $('.container-gallery').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.container-gallery-2'
+            });
+            $('.container-gallery-2').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: false,
+                asNavFor: '.container-gallery',
+                dots: false,
+                centerMode: false,
+                focusOnSelect: true
+            });
+        });
+    </script>
 <?php get_footer();?>
