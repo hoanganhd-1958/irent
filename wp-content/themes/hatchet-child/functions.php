@@ -16,8 +16,12 @@ endif;
 add_action( 'wp_enqueue_scripts', 'pofo_child_style', 11 );
 
 
-function my_custom_mime_types( $mimes ) {
-
+function my_custom_mime_types( $mimes )
+{
+    $a = [
+            1,
+        2,
+    ];
 // New allowed mime types.
     $mimes['svg'] = 'image/svg+xml';
     $mimes['svgz'] = 'image/svg+xml';
