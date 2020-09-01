@@ -21,6 +21,7 @@ function my_custom_mime_types( $mimes )
     $a = [
             1,
         2,
+        3
     ];
 // New allowed mime types.
     $mimes['svg'] = 'image/svg+xml';
